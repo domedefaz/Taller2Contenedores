@@ -8,7 +8,7 @@ import jakarta.inject.Inject;
 @QuarkusMain
 public class Main implements QuarkusApplication{
  
-   //@Inject
+   @Inject
     private PedidoService pedidoService;
     public static void main(String[] args) {
         Quarkus.run(Main.class,args);
@@ -25,7 +25,5 @@ public class Main implements QuarkusApplication{
       return 0;  
  
     }
- 
- 
  
 }
