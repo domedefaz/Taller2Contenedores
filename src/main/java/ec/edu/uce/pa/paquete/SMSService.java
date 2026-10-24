@@ -15,4 +15,26 @@ public class SMSService implements Notificacion{
         System.out.println("Fin del envio de SMS.");
     }
 
+    @Override
+    public Integer getCantidad() {
+        return null;
+        
+
+    }
+
+    @Override
+    public void setCantidad(Integer cantidad) {
+        
+        }
+
+    @Override
+    public String getNombre() {
+        throw new UnsupportedOperationException("Unimplemented method 'getNombre'");
+    }
+
+    @Override
+    public void setNombre(String nombre) {
+        throw new UnsupportedOperationException("Unimplemented method 'setNombre'");
+    }
+
 }
