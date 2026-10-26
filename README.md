@@ -1,62 +1,56 @@
-# pa2_u1_cc_ec
+# Taller Practico: Simulador de Descuentos con Quarkus
+**Asignatura:** Programacion Avanzada II  
+**Estudiante:** Domenica Defaz  
+**Rama de Git:** Tarea3  
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+---
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## 1. Descripcion del Proyecto
+Aplicacion desarrollada en Java con el framework Quarkus para aplicar conceptos de Inversion de Control (IoC), Inyeccion de Dependencias (DI), CDI, Qualifiers, Scopes (`@ApplicationScoped`, `@Dependent`) y ciclo de vida de componentes gestionados por el contenedor ArC, ejecutada mediante consola.
 
-## Running the application in dev mode
+---
 
-You can run your application in dev mode that enables live coding using:
+## 2. Preguntas de Analisis
 
-```shell script
-./mvnw quarkus:dev
-```
+### En que parte del ejercicio se aplica IoC y en cual DI?
+- **IoC (Inversion de Control):** Se aplica al delegar la creacion, inicializacion y gestion del ciclo de vida de los componentes (`VentaService`, `DescuentoRegular`, `DescuentoVIP`, `Auditoria`) al contenedor CDI de Quarkus (ArC) mediante anotaciones, sin utilizar el operador `new` manualmente.
+- **DI (Inyeccion de Dependencias):** Se aplica mediante el uso de la anotacion `@Inject`. En el proyecto se demostro mediante **inyeccion por atributo** (en `Auditoria` dentro de `VentaService`) y **inyeccion por constructor** (inyectando los qualificadores de `CalculadoraDescuento` en el constructor de `VentaService`).
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+### Que funcion cumplen los Qualifiers y por que son necesarios?
+Los Qualifiers (`@Named("regular")` y `@Named("vip")`) permiten diferenciar las multiples implementaciones de la interfaz `CalculadoraDescuento` (`DescuentoRegular` y `DescuentoVIP`). Son necesarios para evitar ambiguedades en el contenedor CDI al momento de inyectar la dependencia adecuada en el punto de inyeccion.
 
-## Packaging and running the application
+### Cual es la diferencia entre @ApplicationScoped y @Dependent?
+- **`@ApplicationScoped`**: Mantiene una **unica instancia** (Singleton) compartida durante todo el tiempo de vida de la aplicacion.
+- **`@Dependent`**: Es el ambito por defecto; se crea una **nueva instancia** cada vez que el componente es inyectado o requerido por otro objeto.
 
-The application can be packaged using:
+### Por que las instancias @ApplicationScoped pueden reutilizarse entre varias ventas?
+Porque el contenedor ArC las crea e inicializa una sola vez al inicio de la aplicacion y guarda la referencia en memoria, permitiendo que todas las peticiones o metodos que las necesiten compartan la misma instancia.
 
-```shell script
-./mvnw package
-```
+### Que sucederia si se elimina el Qualifier de un punto de inyeccion de CalculadoraDescuento?
+El contenedor CDI de Quarkus (ArC) lanzaria una excepcion de ambiguedad en tiempo de compilacion o inicio (*AmbiguousDependencyException*), debido a que no sabria cual de las dos clases (`DescuentoRegular` o `DescuentoVIP`) inyectar.
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+---
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+## 3. Evidencia de Salida en Consola
 
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/pa2_u1_cc_ec-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+```text
+***** SIMULADOR DE DESCUENTOS QUARKUS *****
+Instancia de Descuento Regular
+Instancia de Descuento VIP
+Instancia de VentaService
+Instancia de Auditoria (Dependent)
+Instancia de Descuento Regular
+--- AUDITORIA DE VENTA ---
+Tipo Cliente: REGULAR | Monto: $100.0 | Descuento: 5 % ($5.0) | Total Final: $95.0
+--------------------------
+Instancia de Descuento VIP
+--- AUDITORIA DE VENTA ---
+Tipo Cliente: VIP | Monto: $200.0 | Descuento: 15 % ($30.0) | Total Final: $170.0
+--------------------------
+--- AUDITORIA DE VENTA ---
+Tipo Cliente: REGULAR | Monto: $300.0 | Descuento: 5 % ($15.0) | Total Final: $285.0
+--------------------------
+--- AUDITORIA DE VENTA ---
+Tipo Cliente: VIP | Monto: $500.0 | Descuento: 15 % ($75.0) | Total Final: $425.0
+--------------------------
+***** FIN DE LA EJECUCION *****

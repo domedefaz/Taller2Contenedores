@@ -19,7 +19,6 @@ public class Main implements QuarkusApplication {
     public int run(String... args) {
         System.out.println("***** SIMULADOR DE DESCUENTOS QUARKUS *****");
 
-        // 4 ventas predefinidas según la tabla del taller[cite: 1]
         ventaService.procesarVenta("REGULAR", 100.00);
         ventaService.procesarVenta("VIP", 200.00);
         ventaService.procesarVenta("REGULAR", 300.00);
