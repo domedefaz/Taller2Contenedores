@@ -27,7 +27,7 @@ public class MailService implements Notificacion {
         System.out.println("Mensaje " + mensaje);
         System.out.println("Correo enviado con exito");
         System.out.println("Fin del envio del correo");
-        // cantidad++;
+       
 
     }
 

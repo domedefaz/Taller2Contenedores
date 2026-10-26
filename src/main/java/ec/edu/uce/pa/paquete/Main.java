@@ -26,7 +26,7 @@ public class Main implements QuarkusApplication {
         pedido.setTelefono("1215454545"); // // clase Pedido
         this.pedidoService.realizar(pedido);
 
-        Compra compra = new Compra("Domenica", "Laptop", 1500, "dome.defaz@gmail.com", "0935684512");
+        Compra compra = new Compra("Domenica Defaz", "smartwatch", 800, "dome.defaz@gmail.com", "0935684512");
         compraService.realizar(compra);
 
         return 0;
