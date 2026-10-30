@@ -17,14 +17,14 @@ public class Main implements QuarkusApplication {
 
     @Override
     public int run(String... args) {
-        System.out.println("***** SIMULADOR DE DESCUENTOS QUARKUS *****");
+        System.out.println("********** SIMULADOR DE DESCUENTOS QUARKUS **********");
 
         ventaService.procesarVenta("REGULAR", 100.00);
         ventaService.procesarVenta("VIP", 200.00);
         ventaService.procesarVenta("REGULAR", 300.00);
         ventaService.procesarVenta("VIP", 500.00);
 
-        System.out.println("***** FIN DE LA EJECUCION *****");
+        System.out.println("*********** FIN DE LA EJECUCION *************");
         return 0;
     }
 }

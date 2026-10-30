@@ -1,5 +1,6 @@
 package ec.edu.uce.pa.paquete;
 
+import ec.edu.uce.pa.paquete.interceptors.Auditoria;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -7,11 +8,6 @@ import jakarta.inject.Named;
 @ApplicationScoped
 public class VentaService {
 
-    // Inyección por atributo
-    @Inject
-    private Auditoria auditoria;
-
-    // Inyección por constructor 
     private final CalculadoraDescuento calculadoraRegular;
     private final CalculadoraDescuento calculadoraVIP;
 
@@ -23,7 +19,8 @@ public class VentaService {
         this.calculadoraVIP = calculadoraVIP;
     }
 
-    public void procesarVenta(String tipo, double monto) {
+    @Auditoria
+    public String procesarVenta(String tipo, double monto) {
         double descuento = 0;
         String porcentajeStr = "";
 
@@ -37,7 +34,13 @@ public class VentaService {
 
         double totalFinal = monto - descuento;
 
-        // Registrar en auditoría enviando el porcentaje y el descuento en dinero
-        auditoria.registrar(tipo, monto, porcentajeStr, descuento, totalFinal);
+        System.out.println("------Procesando venta------");
+        System.out.println("Tipo Cliente: " + tipo);
+        System.out.println("Monto: " + monto);
+        System.out.println("Descuento: " + porcentajeStr + " ($" + descuento + ")");
+        System.out.println("Total Final: " + totalFinal);
+        System.out.println("Venta realizada con éxito...");
+
+        return "Venta realizada con exito...";
     }
 }
