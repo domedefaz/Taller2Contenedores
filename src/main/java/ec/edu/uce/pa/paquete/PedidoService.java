@@ -5,18 +5,27 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class PedidoService {
-   
-    @Auditoria 
+
+    @Auditoria
     public String realizar(Pedido pedido, String valor1) {
+
+        Long init = System.currentTimeMillis();
+        try {
+            Thread.sleep(1500);
+        } catch (Exception e) {
+
+        }
 
         System.out.println("Realizando pedido......");
         System.out.println("Pedido realizado para el cliente: " + pedido.getCliente());
         System.out.println("Producto:" + pedido.getProducto());
         System.out.println("Total:" + pedido.getTotal());
         System.out.println("Correo: " + pedido.getCorreo());
+        System.out.println("Telefono: " + pedido.getTelefono());
         System.out.println("Pedido realizado con éxito");
 
-        return "Pedido realizado con exito";
+        Long fin = System.currentTimeMillis() - init;
+        return "[PedidoService] Pedido realizado con exito \n Tiempo de ejecucion: " + fin;
     }
 
 }
