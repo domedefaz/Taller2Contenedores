@@ -1,11 +1,13 @@
 package ec.edu.uce.pa.paquete;
 
 import ec.edu.uce.pa.paquete.interceptors.Auditoria;
+import ec.edu.uce.pa.paquete.interceptors.MedirTiempo;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class PedidoService {
 
+    @MedirTiempo
     @Auditoria
     public String realizar(Pedido pedido, String valor1) {
 
@@ -25,7 +27,7 @@ public class PedidoService {
         System.out.println("Pedido realizado con éxito");
 
         Long fin = System.currentTimeMillis() - init;
-        return "[PedidoService] Pedido realizado con exito \n Tiempo de ejecucion: " + fin;
+        return "[PedidoService] Pedido realizado con exito \nTiempo de ejecucion: " + fin;
     }
 
 }
