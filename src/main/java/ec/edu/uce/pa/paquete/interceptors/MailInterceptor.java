@@ -1,20 +1,33 @@
 package ec.edu.uce.pa.paquete.interceptors;
 
-import jakarta.annotation.Priority;
+import ec.edu.uce.pa.paquete.Reservacion;
+import ec.edu.uce.pa.paquete.MailService;
+import jakarta.inject.Inject;
 import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.Interceptor;
 import jakarta.interceptor.InvocationContext;
 
 @Mail
 @Interceptor
-@Priority(Interceptor.Priority.APPLICATION + 40)
+@jakarta.annotation.Priority(Interceptor.Priority.APPLICATION + 40)
 public class MailInterceptor {
+
+    @Inject
+    MailService mailService;
 
     @AroundInvoke
     public Object interceptar(InvocationContext context) throws Exception {
-        System.out.println("[Interceptor Mail] INICIO mail");
-        Object resul = context.proceed();
-        OrdenEjecucion.agregar("[Interceptor mail] FIN Mail");
-        return resul;
+
+        System.out.println("[Interceptor Mail] INICIO Mail");
+
+        Object resultado = context.proceed();
+
+        Reservacion reservacion = (Reservacion) context.getParameters()[0];
+
+        mailService.enviarCorreo(reservacion);
+
+        OrdenEjecucion.agregar("[Interceptor Mail] FIN Mail");
+
+        return resultado;
     }
 }

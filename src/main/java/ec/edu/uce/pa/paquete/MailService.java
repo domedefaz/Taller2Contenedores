@@ -1,49 +1,15 @@
 package ec.edu.uce.pa.paquete;
 
-import io.quarkus.arc.Unremovable;
-import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.inject.Named;
-import jakarta.inject.Singleton;
+import ec.edu.uce.pa.paquete.Reservacion;
+import jakarta.enterprise.context.ApplicationScoped;
 
-//Ambitos y contexos
-//ApplicationScoped  //su ambito es durante toda la aplicaacion, se crea una sola instancia de la clase y se comparte entre todos los componenetes que la utiliusan
-//@RequestScoped  // su ambito es en apliccaciones WEB durante el recuest-peticion HTTP es decir se crea u
-//@SessionScoped  // su ambito es en una palicacion  web durante la secion del usuario
-@Singleton // su ambito es durante toda la aplicaacion, se crea una sola instancia de la
-           // clase y se comparte entre todos los componenetes que la utiliusan
-// @Dependent // sua mbito es durante la inyeccion de dependenciaas es decir se
-// crea se crea una sola instancia de la clase y se comparte entre todos los
-// componenetes que la utiliuzan durante la inyeccion de dependencias
-@Named("mail")
-public class MailService implements Notificacion {
+@ApplicationScoped
+public class MailService {
 
-    private Integer cantidad = 0;
-    private String nombre;
+    public void enviarCorreo(Reservacion reservacion) {
 
-    @Override
-    public void enviar(String destino, String mensaje) {
-        System.out.println("Enviar correo a " + destino);
-        System.out.println("Mensaje " + mensaje);
-        System.out.println("Correo enviado con exito");
-        System.out.println("Fin del envio del correo");
-       
+        System.out.println("Enviando correo a: " + reservacion.getCorreo());
 
-    }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+        System.out.println("Correo: Confirmacion de reservacion " + "enviada correctamente.");
     }
 }

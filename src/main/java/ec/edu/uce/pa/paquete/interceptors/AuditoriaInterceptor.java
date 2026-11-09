@@ -1,55 +1,41 @@
 package ec.edu.uce.pa.paquete.interceptors;
 
-import java.lang.reflect.Parameter;
-
+import ec.edu.uce.pa.paquete.Reservacion;
 import ec.edu.uce.pa.paquete.AuditoriaService;
-import ec.edu.uce.pa.paquete.Pedido;
-import jakarta.annotation.Priority;
 import jakarta.inject.Inject;
 import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.Interceptor;
 import jakarta.interceptor.InvocationContext;
 
-@Auditoria 
-@Interceptor 
-@Priority (Interceptor.Priority.APPLICATION + 20)
+@Auditoria
+@Interceptor
+@jakarta.annotation.Priority(Interceptor.Priority.APPLICATION + 20)
 public class AuditoriaInterceptor {
 
-    @Inject 
-    private AuditoriaService auditoriaService;
+    @Inject
+    AuditoriaService auditoriaService;
 
-    @AroundInvoke 
+    @AroundInvoke
     public Object interceptar(InvocationContext context) throws Exception {
 
         System.out.println("[Auditoria] INICIO auditoria");
-        
-        //Todo lo que esta arriba se ejecuta antes de ejecutar el metodo interceptado
-        Object resultado = context.proceed(); // Ejecuta el metodo interceptado
-        
-        String nombreMetodo = context.getMethod().getName();
-        System.out.println("[Auditoria] Se esta ejecutando el metodo: " + nombreMetodo);
-        System.out.println("Ejecuto todo lo que quiero que haga el intercceptor");
 
-        Parameter[] parametros = context.getMethod().getParameters();
+        Object resultado = context.proceed();
 
-        for (Parameter parametro : parametros) {
-            System.out.println("Parametro: " + parametro.getName());
+        System.out.println("[Auditoria] Se esta ejecutando el metodo: " + context.getMethod().getName());
+
+        System.out.println("Ejecuto todo lo que quiero que haga " + "el interceptor");
+
+        for (var parametro : context.getParameters()) {
+            System.out.println("Parametro: " + parametro.getClass().getSimpleName());
         }
 
-        Object[] valores = context.getParameters();
+        Reservacion reservacion = (Reservacion) context.getParameters()[0];
 
-        Pedido pedido = (Pedido)valores[0];
+        auditoriaService.guardarEnLaBase(reservacion);
 
-        String cliente = pedido.getCliente();
-        double total = pedido.getTotal();
-        String correo = pedido.getCorreo();
-
-        this.auditoriaService.guardarEnLaBase(cliente, total, correo);
-       
-        System.out.println("Mensaje luego de que se ejecuta el metodo interceptado");
-        
         OrdenEjecucion.agregar("[Auditoria] FIN auditoria");
+
         return resultado;
     }
-
 }

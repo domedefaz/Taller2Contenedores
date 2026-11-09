@@ -6,7 +6,6 @@ import java.util.List;
 
 public class OrdenEjecucion {
 
-    //guardar los mensajes de finalización y mostrarlos en el orden solicitado.
     private static final ThreadLocal<List<String>> mensajes = ThreadLocal.withInitial(ArrayList::new);
 
     public static void limpiar() {
@@ -18,9 +17,10 @@ public class OrdenEjecucion {
     }
 
     public static void mostrar() {
-        List<String> lista = mensajes.get();
 
+        List<String> lista = mensajes.get();
         Collections.reverse(lista);
+
         for (String mensaje : lista) {
             System.out.println(mensaje);
         }

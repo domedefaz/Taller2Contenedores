@@ -1,36 +1,15 @@
 package ec.edu.uce.pa.paquete;
 
-import jakarta.inject.Named;
-import jakarta.inject.Singleton;
+import ec.edu.uce.pa.paquete.Reservacion;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@Singleton
-@Named("sms")
-public class SMSService implements Notificacion {
+@ApplicationScoped
+public class SMSService {
 
-    @Override
-    public void enviar(String destino, String mensaje) {
-        System.out.println("Enviar SMS a " + destino);
-        System.out.println("Mensaje " + mensaje);
-        System.out.println("SMS enviado con exito");
-        System.out.println("Fin del envio del correo");
+    public void enviarSMS(Reservacion reservacion) {
+
+        System.out.println("Enviando SMS al telefono: " + reservacion.getTelefono());
+
+        System.out.println("SMS: Su reservacion en el hotel " + "ha sido registrada correctamente.");
     }
-
-    @Override
-    public Integer getCantidad() {
-        return null;
-    }
-
-    @Override
-    public void setCantidad(Integer cantidad) {
-    }
-
-    @Override
-    public String getNombre() {
-        return null;
-    }
-
-    @Override
-    public void setNombre(String nombre) {
-    }
-
 }

@@ -2,14 +2,19 @@ package ec.edu.uce.pa.paquete;
 
 import java.time.LocalDateTime;
 
-import jakarta.inject.Singleton;
+import ec.edu.uce.pa.paquete.Reservacion;
+import jakarta.enterprise.context.ApplicationScoped;
 
-@Singleton 
+@ApplicationScoped
 public class AuditoriaService {
 
-    public void guardarEnLaBase( String cliente, double total, String correo){
-        System.out.println("Guardando en la base de datos la auditoria: Cliente: " + cliente + ", Total: " + total + ", correo: " + correo);
-        System.out.println("Con fecha y hopra: " + LocalDateTime.now());
-    }
+    public void guardarEnLaBase(Reservacion reservacion) {
 
+        System.out.println("Guardando en la base de datos la auditoria:");
+        System.out.println("Cliente: " + reservacion.getCliente());
+        System.out.println("Habitacion: " + reservacion.getNumeroHabitacion());
+        System.out.println("Total: " + reservacion.getTotal());
+        System.out.println("Correo: " + reservacion.getCorreo());
+        System.out.println("Con fecha y hora: " + LocalDateTime.now());
+    }
 }
