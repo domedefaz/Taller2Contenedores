@@ -7,13 +7,14 @@ import jakarta.interceptor.InvocationContext;
 
 @Mail
 @Interceptor
-@Priority(Interceptor.Priority.APPLICATION + 40) 
+@Priority(Interceptor.Priority.APPLICATION + 40)
 public class MailInterceptor {
 
     @AroundInvoke
     public Object interceptar(InvocationContext context) throws Exception {
+        System.out.println("[Interceptor Mail] INICIO mail");
         Object resul = context.proceed();
-        System.out.println("[Interceptor Mail] Correo de notificación enviado");
+        OrdenEjecucion.agregar("[Interceptor mail] FIN Mail");
         return resul;
     }
 }

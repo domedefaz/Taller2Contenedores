@@ -21,16 +21,17 @@ public class AuditoriaInterceptor {
     @AroundInvoke 
     public Object interceptar(InvocationContext context) throws Exception {
 
-         //Todo lo que esta arriba se ejecuta antes de ejecutar el metodo interceptado
+        System.out.println("[Auditoria] INICIO auditoria");
+        
+        //Todo lo que esta arriba se ejecuta antes de ejecutar el metodo interceptado
         Object resultado = context.proceed(); // Ejecuta el metodo interceptado
-
-        System.out.println("Retorno: " + resultado);
-
+        
         String nombreMetodo = context.getMethod().getName();
-        System.out.println("Auditoria: Se esta ejecutando el metodo: " + nombreMetodo);
+        System.out.println("[Auditoria] Se esta ejecutando el metodo: " + nombreMetodo);
         System.out.println("Ejecuto todo lo que quiero que haga el intercceptor");
 
         Parameter[] parametros = context.getMethod().getParameters();
+
         for (Parameter parametro : parametros) {
             System.out.println("Parametro: " + parametro.getName());
         }
@@ -46,6 +47,8 @@ public class AuditoriaInterceptor {
         this.auditoriaService.guardarEnLaBase(cliente, total, correo);
        
         System.out.println("Mensaje luego de que se ejecuta el metodo interceptado");
+        
+        OrdenEjecucion.agregar("[Auditoria] FIN auditoria");
         return resultado;
     }
 

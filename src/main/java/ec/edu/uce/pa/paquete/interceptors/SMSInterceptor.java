@@ -12,8 +12,9 @@ public class SMSInterceptor {
 
     @AroundInvoke
     public Object interceptar(InvocationContext context) throws Exception {
+        System.out.println("[Interceptor SMS] INICIO SMS");
         Object resul = context.proceed();
-        System.out.println("[Interceptor SMS] Notificación enviada por SMS");
+        OrdenEjecucion.agregar("[Interceptor SMS] FIN SMS");
         return resul;
     }
 }
